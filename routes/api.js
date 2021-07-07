@@ -8,32 +8,50 @@ const ConvertHandler = require("../controllers/convertHandler.js");
  * @module ./routes/api
  *
  * @param {Express} app   Represents the current Express application
+ *
  */
 module.exports = function (app) {
   let convertHandler = new ConvertHandler();
 
   // Displays the initial unit and the converted unit
   app.route("/api/convert").get((req, res) => {
-    const num = req.query.input.split(/[A-Za-z]/)[0];
-    const unit = req.query.input.split(/[^A-Za-z]/)[0];
+    // Splits the input field
+    const num = req.query.input.split(/[A-Za-z]/g)[0];
+    const LENGTH = req.query.input.split(/[^A-Za-z]/g).length;
+    const unit = req.query.input.split(/[^A-Za-z]/g)[LENGTH - 1];
 
+    console.log("Number: " + num + "\nUnit: " + unit);
+
+    // Gets the initial values
     const initNum = convertHandler.getNum(num);
     const initUnit = convertHandler.getUnit(unit);
 
+    // Gets the converted values
     const returnNum = convertHandler.convert(initNum, initUnit);
     const returnUnit = convertHandler.getReturnUnit(initUnit);
 
-    app.emit("submit", {
-      initNum: initNum,
-      initUnit: initUnit,
-      returnNum: returnNum,
-      returnUnit: returnUnit,
-      string: convertHandler.getString(
-        initNum,
-        initUnit,
-        returnNum,
-        returnUnit
-      ),
-    });
+    // Checks for invalid values
+    if (returnNum == "invalid unit and number") {
+      res.send(returnNum);
+    } else {
+      if (initNum == "invalid number") {
+        res.send(initNum);
+      } else if (initUnit == "invalid unit") {
+        res.send(initUnit);
+      } else {
+        app.emit("submit", {
+          initNum: initNum,
+          initUnit: initUnit,
+          returnNum: returnNum,
+          returnUnit: returnUnit,
+          string: convertHandler.getString(
+            initNum,
+            initUnit,
+            returnNum,
+            returnUnit
+          ),
+        });
+      }
+    }
   });
 };
