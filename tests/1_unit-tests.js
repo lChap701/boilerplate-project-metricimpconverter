@@ -5,7 +5,8 @@ const ConvertHandler = require("../controllers/convertHandler.js");
 let convertHandler = new ConvertHandler();
 
 suite("Unit Tests", function () {
-  suite("Input Tests", function () {
+  /* My Tests */
+  suite("Input Tests", () => {
     // Number input tests
     test("1)  Whole Number Test", function () {
       const val = convertHandler.getNum("12");
@@ -27,7 +28,7 @@ suite("Unit Tests", function () {
       assert.equal(val, 0.55, `'${val}' is not equal to '0.55'`);
     });
 
-    test("5)  Invalid Fractional Test", function () {
+    test("5)  Invalid Fractional Test", () => {
       const val = convertHandler.getNum("1/2/3");
       assert.equal(
         val,
@@ -36,13 +37,13 @@ suite("Unit Tests", function () {
       );
     });
 
-    test("6)  Default Test", function () {
+    test("6)  Default Test", () => {
       const val = convertHandler.getNum("");
       assert.equal(val, 1, `'${val}' is not equal to '1'`);
     });
 
     // Unit input tests
-    test("7)  Unit of Measurement Test", function () {
+    test("7)  Unit of Measurement Test", () => {
       const units = ["GAL", "l", "Mi", "Km", "LbS", "KG"];
 
       // Tests each unit in the array
@@ -58,7 +59,7 @@ suite("Unit Tests", function () {
       });
     });
 
-    test("8)  Invalid Unit of Measurement Test", function () {
+    test("8)  Invalid Unit of Measurement Test", () => {
       const val = convertHandler.getUnit("gha1");
       assert.equal(
         val,
@@ -68,8 +69,8 @@ suite("Unit Tests", function () {
     });
   });
 
-  suite("Conversion Tests", function () {
-    test("1)  Unit Conversion Test", function () {
+  suite("Conversion Tests", () => {
+    test("1)  Unit Conversion Test", () => {
       const units = [
         { init: "gal", converted: "L" },
         { init: "L", converted: "gal" },

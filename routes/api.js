@@ -13,14 +13,13 @@ const ConvertHandler = require("../controllers/convertHandler.js");
 module.exports = function (app) {
   let convertHandler = new ConvertHandler();
 
+  /* My Code */
   // Displays the initial unit and the converted unit
   app.route("/api/convert").get((req, res) => {
     // Splits the input field
     const num = req.query.input.split(/[A-Za-z]/g)[0];
     const LENGTH = req.query.input.split(/[^A-Za-z]/g).length;
     const unit = req.query.input.split(/[^A-Za-z]/g)[LENGTH - 1];
-
-    console.log("Number: " + num + "\nUnit: " + unit);
 
     // Gets the initial values
     const initNum = convertHandler.getNum(num);
@@ -31,7 +30,7 @@ module.exports = function (app) {
     const returnUnit = convertHandler.getReturnUnit(initUnit);
 
     // Checks for invalid values
-    if (returnNum == "invalid unit and number") {
+    if (returnNum == "invalid number and unit") {
       res.send(returnNum);
     } else {
       if (initNum == "invalid number") {
