@@ -38,7 +38,7 @@ module.exports = function (app) {
       } else if (initUnit == "invalid unit") {
         res.send(initUnit);
       } else {
-        app.emit("submit", {
+        const obj = {
           initNum: initNum,
           initUnit: initUnit,
           returnNum: returnNum,
@@ -49,7 +49,8 @@ module.exports = function (app) {
             returnNum,
             returnUnit
           ),
-        });
+        };
+        res.json(obj);
       }
     }
   });
